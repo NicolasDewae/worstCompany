@@ -7,7 +7,7 @@ const puppeteer = require('puppeteer');
     const browser = await puppeteer.launch(
       {
         userDataDir: ("./user_data"),
-        headless: false,
+        headless: true,
       }
   );
     
@@ -61,11 +61,11 @@ const puppeteer = require('puppeteer');
     async function parseStars(page) {
       let starsTab = [];
       
-      const stars = await page.$$('.MW4etd span');
+      const stars = await page.$$('span.ZkP5Je span.MW4etd');
       
       if (stars && stars.length) {
         for(const el of stars){
-          const star = await el.evaluate(span => span.innerText);
+          const star = await el.evaluate(span => span.innerHTML);
           starsTab.push({ star });
         }
       }  
