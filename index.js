@@ -93,7 +93,6 @@ const gradeMax = 2;
           const grade = await el.evaluate(span => span.innerHTML);
           const name = await el.evaluate(span => span.offsetParent.__cdn.Df.element.ariaLabel);
           const url = await el.evaluate(span => span.offsetParent.__cdn.context.H.context[6]);
-          // [0].offsetParent.__cdn.context.H.context[6]
           if (grade[0] <= gradeMax) {
             worstTab.push({ 
               name: name,
