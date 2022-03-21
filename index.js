@@ -47,10 +47,11 @@ const puppeteer = require('puppeteer');
       await page.evaluate(async () => {
           await new Promise((resolve, reject) => {
               var totalHeight = 0;
-              var distance = 100;
+              var distance = 300;
               var timer = setInterval(() => {
-                  const element = document.querySelectorAll('.section-scrollbox')[1];
+                  var element = document.querySelectorAll('.section-scrollbox')[1];
                   var scrollHeight = element.scrollHeight;
+                  element.scrollBy(0, distance);
                   totalHeight += distance;
   
                   if(totalHeight >= scrollHeight){
@@ -63,26 +64,26 @@ const puppeteer = require('puppeteer');
     }
 
 
-    async function parseStars(page) {
+    async function parseCompany(page) {
       let worstTab = [];
-      let starsTab = [];
+      let bestTab = [];
       
-      const stars = await page.$$('span.ZkP5Je span.MW4etd');
+      const grades = await page.$$('span.ZkP5Je span.MW4etd');
       
-      if (stars && stars.length) {
-        for(const el of stars){
-          const star = await el.evaluate(span => span.innerHTML);
+      if (grades && grades.length) {
+        for(const el of grades){
+          const grade = await el.evaluate(span => span.innerHTML);
           const name = await el.evaluate(span => span.offsetParent.__cdn.Df.element.ariaLabel)
           // console.log(url);
-          if (star[0] <= 2) {
+          if (grade[0] <= 2) {
             worstTab.push({ 
               name: name,
-              star: star 
+              grade: grade 
             });
           } else {
-            starsTab.push({ 
+            bestTab.push({ 
               name: name,
-              star: star
+              grade: grade
              });  
           }
         }
@@ -90,15 +91,15 @@ const puppeteer = require('puppeteer');
 
       return {
         worstTab,
-        starsTab
+        bestTab
       }
       
     }
 
     await autoScroll(page);
 
-    const titles = await parseStars(page);
-    console.log(titles);
+    const company = await parseCompany(page);
+    console.log(company);
 
     await browser.close();
 
