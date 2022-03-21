@@ -18,9 +18,11 @@ const puppeteer = require('puppeteer');
     const [AcceptCookies] = await page.$x("//span[contains(., 'accepte')]");
     if (AcceptCookies) {
         await AcceptCookies.click();
+        await page.waitForSelector("#searchbox");
         console.log("page de cookies accepée");
     } else {
       console.log("Il n'y a pas eu la page de cookies ");
+      await page.waitForSelector("#searchbox");
     }
 
     // send research
