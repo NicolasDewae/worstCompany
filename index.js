@@ -30,8 +30,6 @@ const gradeMax = 2;
 
     // send research
     try {
-      // Create research
-      const research = "coiffeur lille";
       // find input research by class
       const searchInput = await page.$("#searchbox");
       // insert keyword 
