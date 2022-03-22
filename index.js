@@ -1,14 +1,13 @@
 const puppeteer = require('puppeteer');
+const readline  = require('readline');
 
-const research = "coiffeur lille";
-const gradeMax = 2;
 
 (async () => {
     
     const browser = await puppeteer.launch(
       {
         userDataDir: ("./user_data"),
-        headless: true,
+        headless: false,
       }
   );
     
@@ -30,6 +29,10 @@ const gradeMax = 2;
 
     // send research
     try {
+      await researchQuestion();
+      await gradeMaxQuestion();
+      const research = researchQuestion();
+      const gradeMax = gradeMaxQuestion();
       // find input research by class
       const searchInput = await page.$("#searchbox");
       // insert keyword 
@@ -38,11 +41,48 @@ const gradeMax = 2;
       await page.click("#searchbox-searchbutton");
       console.log("La recherche " + research + " est lancée");      
     } catch (error) {
+      console.log("resultat de la variable research = " + research);
+      console.log("resultat de la variable gradeMax = " + test());
       console.log("une erreur c'est produite au moment de lancer la recherche, pour plus de détail " + error)      
     }
 
     await page.waitForSelector("a.a4gq8e-aVTXAb-haAclf-jRmmHf-hSRGPd");
 
+    async function researchQuestion() {
+
+      const rl = readline.createInterface({
+          input: process.stdin,
+          output: process.stdout
+      });
+  
+      return new Promise(resolve => {
+  
+          rl.question(
+            'Recherche google maps: ', (response) => {
+              const research = response;
+              rl.close();
+              resolve(research)
+          });
+      });
+    }
+
+    async function gradeMaxQuestion() {
+
+      const rl = readline.createInterface({
+          input: process.stdin,
+          output: process.stdout
+      });
+  
+      return new Promise(resolve => {
+  
+          rl.question(
+            'Note maximale: ', (response) => {
+              const gradeMax = response;
+              rl.close();
+              resolve(gradeMax)
+          });
+      });
+    }
 
     async function autoScroll(page){
       await page.evaluate(async () => {
