@@ -1,14 +1,13 @@
 const puppeteer = require('puppeteer');
 
-const research = "coiffeur lille";
-const gradeMax = 2;
+const myArgs = process.argv.slice(2);
 
 (async () => {
     
     const browser = await puppeteer.launch(
       {
         userDataDir: ("./user_data"),
-        headless: true,
+        headless: false,
       }
   );
     
@@ -18,14 +17,19 @@ const gradeMax = 2;
     await page.goto('https://maps.google.fr', {waitUntil: 'networkidle2'});
 
     // skip consent page if exist
-    const [AcceptCookies] = await page.$x("//span[contains(., 'accepte')]");
-    if (AcceptCookies) {
-        await AcceptCookies.click();
+    try {
+      const [AcceptCookies] = await page.$x("//span[contains(., 'accepte')]");
+      if (AcceptCookies) {
+          await AcceptCookies.click();
+          await page.waitForSelector("#searchbox");
+          console.log("page de cookies accepée");
+      } else {
+        console.log("Il n'y a pas eu la page de cookies ");
         await page.waitForSelector("#searchbox");
-        console.log("page de cookies accepée");
-    } else {
-      console.log("Il n'y a pas eu la page de cookies ");
-      await page.waitForSelector("#searchbox");
+      }
+    } catch (error) {
+      console.log("Une erreur c'est produite");      
+      console.log("Pour plus de détails: " + error);
     }
 
     // send research
@@ -33,16 +37,18 @@ const gradeMax = 2;
       // find input research by class
       const searchInput = await page.$("#searchbox");
       // insert keyword 
-      await searchInput.type(research);
+      for (let index = 0; index < myArgs.length; index++) {
+        await searchInput.type(myArgs[index] + " "); 
+      }
       // send research
       await page.click("#searchbox-searchbutton");
-      console.log("La recherche " + research + " est lancée");      
+      console.log("La recherche est lancée");      
     } catch (error) {
-      console.log("une erreur c'est produite au moment de lancer la recherche, pour plus de détail " + error)      
+      console.log("Une erreur c'est produite au moment de lancer la recherche");      
+      console.log("Pour plus de détails: " + error);
     }
 
     await page.waitForSelector("a.a4gq8e-aVTXAb-haAclf-jRmmHf-hSRGPd");
-
 
     async function autoScroll(page){
       await page.evaluate(async () => {
@@ -93,13 +99,11 @@ const gradeMax = 2;
           const grade = await el.evaluate(span => span.innerHTML);
           const name = await el.evaluate(span => span.offsetParent.__cdn.Df.element.ariaLabel);
           const url = await el.evaluate(span => span.offsetParent.__cdn.context.H.context[6]);
-          if (grade[0] <= gradeMax) {
             worstTab.push({ 
               name: name,
               grade: grade,
               url: url
             });
-          }
         }
       }  
       return worstTab
@@ -110,11 +114,27 @@ const gradeMax = 2;
     do {
       await autoScroll(page);
       companies = companies.concat(await parseCompany(page));
-      console.log('Recherche en cours');
+      console.log('Recherche en cours, nombre d\'entreprises trouvées actuellement ' + companies.length);
       await goToNextPage(page);  
     } while (await hasNextPage(page));
     
-    console.log(companies);
+    // Sort by worst grade and return result
+    try {
+      companies.sort(function compare(a, b) {
+        if (a.grade < b.grade) {
+          return -1;          
+        }
+        if (a.grade > b.grade) {
+          return 1;         
+        }
+        return 0;
+      });
+      // Final result
+      console.table(companies);
+    } catch (error) {
+      console.log("Une erreur c'est produite au moment de traiter le tableau");
+      console.log("Pour plus de détails: " + error);
+    }
 
     await browser.close();
 
