@@ -47,11 +47,15 @@ exports.autoScroll = async function autoScroll(page){
         const grade = await el.evaluate(span => span.innerHTML);
         const name = await el.evaluate(span => span.offsetParent.__cdn.Df.element.ariaLabel);
         const url = await el.evaluate(span => span.offsetParent.__cdn.context.H.context[6]);
-          worstTab.push({ 
+        const nbComm = await el.evaluate(span => span.parentElement.lastChild.innerText);
+        const adress = await el.evaluate(span => span.parentElement.parentElement.parentElement.parentNode.parentNode.lastElementChild.children[1].outerText);    
+        worstTab.push({ 
             name: name,
             grade: grade,
+            nbComm: nbComm,
+            adress: adress,
             url: url
-          });
+        });
       }
     }  
     return worstTab
