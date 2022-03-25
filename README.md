@@ -1,8 +1,11 @@
 # worstCompany
 
-Finding the worst companies for new opportunities
+Finding the worst companies for new opportunities.
 get name, grade and url.
 
-You need enter the research and grade inside the app. For the v2 i want to variabilize research demand.
+push your research with command line arguments, example: node index.js dentiste paris 
+the research is on https://maps.google.fr
+
+
 
 npm install puppeteer
