@@ -7,5 +7,5 @@ push your research with command line arguments, example: node index.js dentiste 
 the research is on https://maps.google.fr
 
 
-
+You need to install puppeteer:
 npm install puppeteer
