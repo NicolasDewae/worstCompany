@@ -1,3 +1,31 @@
+// skip consent page if exist
+exports.consentPage = async function consentPage(page) {
+    const [AcceptCookies] = await page.$x("//span[contains(., 'accepte')]");
+    
+    if (AcceptCookies) {
+        await AcceptCookies.click();
+        await page.waitForSelector("#searchbox");
+        console.log("page de cookies accepée");
+    } else {
+      console.log("Il n'y a pas eu la page de cookies ");
+      await page.waitForSelector("#searchbox");
+    }
+}
+
+// Find research input and send arguments
+exports.sendResearch = async function sendResearch(page) {
+  const myArgs = process.argv.slice(2);
+    // find input research by class
+    const searchInput = await page.$("#searchbox");
+    // insert keyword 
+    for (let index = 0; index < myArgs.length; index++) {
+      await searchInput.type(myArgs[index] + " "); 
+    }
+    // send research
+    await page.click("#searchbox-searchbutton");
+    console.log("La recherche est lancée");      
+}
+
 exports.autoScroll = async function autoScroll(page){
     await page.evaluate(async () => {
         await new Promise((resolve, reject) => {
@@ -18,13 +46,13 @@ exports.autoScroll = async function autoScroll(page){
     });
   }
 
-  // click on "next page" button
+  // Click on "next page" button
   exports.goToNextPage = async function goToNextPage(page) {
     await page.click('button[aria-label="Page suivante"]');
     await page.waitForNetworkIdle();
   }
 
-  // search if is the last page
+  // Search if is the last page
   exports.hasNextPage = async function hasNextPage(page) {
     const element = await page.$('button[aria-label="Page suivante"]');
     if (!element) {
@@ -44,19 +72,34 @@ exports.autoScroll = async function autoScroll(page){
     // Create tab
     if (grades && grades.length) {
       for(const el of grades){
-        const grade = await el.evaluate(span => span.innerHTML);
         const name = await el.evaluate(span => span.offsetParent.__cdn.Df.element.ariaLabel);
-        const url = await el.evaluate(span => span.offsetParent.__cdn.context.H.context[6]);
+        const grade = await el.evaluate(span => span.innerHTML);
         const nbComm = await el.evaluate(span => span.parentElement.lastChild.innerText);
-        const adress = await el.evaluate(span => span.parentElement.parentElement.parentElement.parentNode.parentNode.lastElementChild.children[1].outerText);    
+        // const adress = await el.evaluate(span => span.parentElement.parentElement.parentElement.parentNode.parentNode.lastElementChild.children[1].outerText);
+        const url = await el.evaluate(span => span.offsetParent.__cdn.context.H.context[6]);
         worstTab.push({ 
             name: name,
             grade: grade,
             nbComm: nbComm,
-            adress: adress,
+            // adress: adress,
             url: url
         });
       }
     }  
     return worstTab
+  }
+
+  // Sort by worst grade and return result
+  exports.sortByWorst = async function sortByWorst(companies) {
+      companies.sort(function compare(a, b) {
+        if (a.grade < b.grade) {
+          return -1;          
+        }
+        if (a.grade > b.grade) {
+          return 1;         
+        }
+        return 0;
+      });
+      // Final result
+      return companies; 
   }
