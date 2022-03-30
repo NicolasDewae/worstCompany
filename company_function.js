@@ -75,7 +75,9 @@ exports.autoScroll = async function autoScroll(page){
       for(const el of grades){
         const name = await el.evaluate(span => span.offsetParent.__cdn.Df.element.ariaLabel);
         const grade = await el.evaluate(span => span.innerHTML);
-        const nbComm = await el.evaluate(span => span.parentElement.lastChild.innerText);
+        const nb = await el.evaluate(span => span.parentElement.lastChild.innerText);
+        // remove parenthese
+        nbComm = nb.slice(1, nb.length - 1)
         // const adress = await el.evaluate(span => span.parentElement.parentElement.parentElement.parentNode.parentNode.lastElementChild.children[1].outerText);
         const url = await el.evaluate(span => span.offsetParent.__cdn.context.H.context[6]);
         worstTab.push({ 
@@ -103,4 +105,27 @@ exports.autoScroll = async function autoScroll(page){
       });
       // Final result
       return companies; 
+  }
+
+  // npm i csv-writer
+  exports.csvWriter = function csvWriter(companies) {
+    const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+
+    const csvWriter = createCsvWriter({
+      path: 'companies.csv',
+      header: [
+        {id: 'name', title: 'Name'},
+        {id: 'grade', title: 'Grade'},
+        {id: 'nbComm', title: 'Nb Comment'},
+        // {id: 'adress', title: 'Adress'},
+        {id: 'url', title: 'Url'}
+      ]
+    });
+
+    csvWriter.writeRecords(companies)
+    .then(() => {
+      console.log("...Done");
+    })
+
+    return csvWriter;
   }
