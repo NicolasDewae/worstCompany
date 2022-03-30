@@ -1,4 +1,4 @@
-// skip consent page if exist
+// Skip consent page if exist
 exports.consentPage = async function consentPage(page) {
     const [AcceptCookies] = await page.$x("//span[contains(., 'accepte')]");
     
@@ -14,14 +14,15 @@ exports.consentPage = async function consentPage(page) {
 
 // Find research input and send arguments
 exports.sendResearch = async function sendResearch(page) {
+  // Get arguments
   const myArgs = process.argv.slice(2);
-    // find input research by class
+    // Find input research by id
     const searchInput = await page.$("#searchbox");
-    // insert keyword 
+    // Insert keyword 
     for (let index = 0; index < myArgs.length; index++) {
       await searchInput.type(myArgs[index] + " "); 
     }
-    // send research
+    // Send research
     await page.click("#searchbox-searchbutton");
     console.log("La recherche est lancée");      
 }
