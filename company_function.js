@@ -4,8 +4,8 @@ exports.consentPage = async function consentPage(page) {
     
     if (AcceptCookies) {
         await AcceptCookies.click();
-        await page.waitForSelector("#searchbox");
         console.log("page de cookies accepée");
+        await page.waitForSelector("#searchbox");
     } else {
       console.log("Il n'y a pas eu la page de cookies ");
       await page.waitForSelector("#searchbox");
