@@ -1,11 +1,33 @@
 # worstCompany
 
-Finding the worst companies for new opportunities.
-get name, grade and url.
+<p>Finding the worst companies for new opportunities. Get name, grade comment number and url.</p>
+<p>the research is on https://maps.google.fr</p>
 
-push your research with command line arguments, example: node index.js dentiste paris 
-the research is on https://maps.google.fr
+## required
+<p>You need to install Node if not already case, to check :</p>
 
+```shell
+node -v
+```
+<p>You need to install puppeteer:</p>
 
-You need to install puppeteer:
+```shell
 npm install puppeteer
+```
+## How to work
+
+<p>Open terminal at the project and push your research with command line arguments, example:</p> 
+
+```shell
+node index.js dentiste paris
+```
+
+<p>return example :</p>
+
+
+<p>Sometimes, if consent page is present, you may have problems.</p>
+<p>stop the script "Crtl + C" and start again.</p>
+<p><strong>I'm going to fix soon.</strong><p> 
+
+
+
