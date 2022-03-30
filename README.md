@@ -4,19 +4,28 @@
 <p>the research is on https://maps.google.fr</p>
 
 ## required
+
 <p>You need to install Node if not already case, to check :</p>
 
 ```shell
 node -v
 ```
+
 <p>You need to install puppeteer:</p>
 
 ```shell
 npm install puppeteer
 ```
+
+<p>If You want to export data in csv file, you need to install csv-writer:</p>
+
+```shell
+npm i csv-writer
+```
+
 ## How to work
 
-<p>Open terminal at the project and push your research with command line arguments, example:</p> 
+<p>Open terminal at the project and push your research with command line arguments, example:</p>
 
 ```shell
 node index.js dentiste paris
@@ -27,7 +36,4 @@ node index.js dentiste paris
 
 <p>Sometimes, if consent page is present, you may have problems.</p>
 <p>stop the script "Crtl + C" and start again.</p>
-<p><strong>I'm going to fix soon.</strong><p> 
-
-
-
+<p><strong>I'm going to fix soon.</strong><p>
