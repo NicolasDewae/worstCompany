@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer');  
 compFunctionExports = require('./company_function');
 
 
@@ -12,7 +12,7 @@ compFunctionExports = require('./company_function');
   );
     
     const page = await browser.newPage();
-    // full screen
+    // Full screen
     await page.setViewport({ width: 1680, height: 700 });
     await page.goto('https://maps.google.fr', {waitUntil: 'networkidle2'});
 
@@ -24,7 +24,8 @@ compFunctionExports = require('./company_function');
     await page.waitForSelector("a.a4gq8e-aVTXAb-haAclf-jRmmHf-hSRGPd");
 
     let companies = [];
-
+    
+    // While there is new page, continue
     do {
       await compFunctionExports.autoScroll(page);
       companies = companies.concat(await compFunctionExports.parseCompany(page));
@@ -32,8 +33,10 @@ compFunctionExports = require('./company_function');
       await compFunctionExports.goToNextPage(page);  
     } while (await compFunctionExports.hasNextPage(page));
 
+    // Sort grade by descending order
     await compFunctionExports.sortByWorst(companies);
     
+    // Show result
     console.log(companies);
 
     await browser.close();
