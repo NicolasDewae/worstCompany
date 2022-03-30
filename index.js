@@ -34,7 +34,7 @@ compFunctionExports = require('./company_function');
 
     await compFunctionExports.sortByWorst(companies);
     
-    console.table(companies);
+    console.log(companies);
 
     await browser.close();
 })();
