@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer');  
+const puppeteer = require('puppeteer');
 compFunctionExports = require('./company_function');
 
 
@@ -38,6 +38,15 @@ compFunctionExports = require('./company_function');
     
     // Show result
     console.log(companies);
+
+    // Create csv
+    if (compFunctionExports.csvWriter(companies) == true) {
+      compFunctionExports.csvWriter(companies);
+    } else {
+      console.log("Si vous souhaitez créer un fichier csv, executez la commande 'npm i csv-writer' et relancez le programme")
+    }
+    
+
 
     await browser.close();
 })();
