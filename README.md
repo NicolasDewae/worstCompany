@@ -22,7 +22,7 @@ npm install puppeteer
 node index.js dentiste paris
 ```
 
-<p>return example :</p>
+<p>example of return :</p>
 <img src="https://github.com/NicolasDewae/worstCompany/blob/master/result_example.PNG" alt="">
 
 <p>Sometimes, if consent page is present, you may have problems.</p>
