@@ -40,11 +40,7 @@ compFunctionExports = require('./company_function');
     console.log(companies);
 
     // Create csv
-    if (compFunctionExports.csvWriter(companies) == true) {
-      compFunctionExports.csvWriter(companies);
-    } else {
-      console.log("Si vous souhaitez créer un fichier csv, executez la commande 'npm i csv-writer' et relancez le programme")
-    }
+    compFunctionExports.csvWriter(companies);
     
 
 
