@@ -1,10 +1,10 @@
-# worstCompany
+# WorstCompany
 
-<p>Finding the worst companies for new opportunities. Get name, grade comment number and url.</p>
-<p>the research is on https://maps.google.fr</p>
+<p>To find the worst company for any of your research. You can get the name, the grade, the number of comment and the url.</p>
+<p>the research are know available via https://maps.google.fr</p>
 
-## required
-<p>You need to install Node if not already case, to check :</p>
+## Required
+<p>You need to install Node. To check :</p>
 
 ```shell
 node -v
@@ -14,9 +14,9 @@ node -v
 ```shell
 npm install puppeteer
 ```
-## How to work
+## How does it work
 
-<p>Open terminal at the project and push your research with command line arguments, example:</p> 
+<p>Open terminal where is the project and push your research with command line arguments, example:</p> 
 
 ```shell
 node index.js dentiste paris
@@ -25,9 +25,9 @@ node index.js dentiste paris
 <p>example of return :</p>
 <img src="https://github.com/NicolasDewae/worstCompany/blob/master/result_example.PNG" alt="">
 
-<p>Sometimes, if consent page is present, you may have problems.</p>
+<p> You may have some difficulties due to the consent page.</p>
 <p>stop the script "Crtl + C" and start again.</p>
-<p><strong>I'm going to fix soon.</strong><p> 
+<p><strong>I'm actually fixing it.</strong><p> 
 
 
 
