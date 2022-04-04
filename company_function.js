@@ -1,4 +1,7 @@
-// Skip consent page if exist
+/**
+ * Skip consent page if exist
+ * @param {*} page 
+ */
 exports.consentPage = async function consentPage(page) {
     const [AcceptCookies] = await page.$x("//span[contains(., 'accepte')]");
     
@@ -12,7 +15,10 @@ exports.consentPage = async function consentPage(page) {
     }
 }
 
-// Find research input and send arguments
+/**
+ * Find research input and send arguments
+ * @param {*} page 
+ */
 exports.sendResearch = async function sendResearch(page) {
   // Get arguments
   const myArgs = process.argv.slice(2);
@@ -27,6 +33,10 @@ exports.sendResearch = async function sendResearch(page) {
     console.log("La recherche est lancée");      
 }
 
+/**
+ * Scroll at the bottom
+ * @param {*} page 
+ */
 exports.autoScroll = async function autoScroll(page){
     await page.evaluate(async () => {
         await new Promise((resolve, reject) => {
@@ -47,13 +57,20 @@ exports.autoScroll = async function autoScroll(page){
     });
   }
 
-  // Click on "next page" button
+  /**
+   * Click on "next page" button
+   * @param {*} page 
+   */
   exports.goToNextPage = async function goToNextPage(page) {
     await page.click('button[aria-label="Page suivante"]');
     await page.waitForNetworkIdle();
   }
 
-  // Search if is the last page
+  /**
+   * Search if is the last page
+   * @param {*} page 
+   * @returns !disabled
+   */
   exports.hasNextPage = async function hasNextPage(page) {
     const element = await page.$('button[aria-label="Page suivante"]');
     if (!element) {
@@ -66,7 +83,11 @@ exports.autoScroll = async function autoScroll(page){
     return !disabled;
   }
 
-  // Find companies and create tab 
+  /**
+   * Find companies and create tab
+   * @param {*} page 
+   * @returns tab with companies
+   */
   exports.parseCompany = async function parseCompany(page) {
     let worstTab = [];      
     const grades = await page.$$('span.ZkP5Je span.MW4etd');
@@ -90,7 +111,11 @@ exports.autoScroll = async function autoScroll(page){
     return worstTab
   }
 
-  // Sort by worst grade and return result
+  /**
+   * Sort by worst grade
+   * @param {*} companies 
+   * @returns final tab
+   */
   exports.sortByWorst = async function sortByWorst(companies) {
       companies.sort(function compare(a, b) {
         if (a.grade < b.grade) {
