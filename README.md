@@ -1,3 +1,6 @@
+> **Warning**
+> ## A Google update made it obsolete. I'm actually fixing it
+
 # WorstCompany
 
 <p>To find the worst company for any of your research. You can get the name, the grade, the number of comment and the url.</p>
@@ -24,10 +27,6 @@ node index.js dentiste paris
 
 <p>example of return :</p>
 <img src="https://github.com/NicolasDewae/worstCompany/blob/master/result_example.PNG" alt="">
-
-<p> You may have some difficulties due to the consent page.</p>
-<p>stop the script "Crtl + C" and start again.</p>
-<p><strong>I'm actually fixing it.</strong><p> 
 
 
 
