@@ -1,5 +1,5 @@
 > **Warning**
-> ## A Google update made it obsolete. I'm actually fixing it
+> ## A Google update made it obsolete. I'm actually fixing it (problem with scroll bar not found)
 
 # WorstCompany
 
