@@ -1,3 +1,5 @@
+
+
 /**
  * Skip consent page if exist
  * @param {*} page 
@@ -19,9 +21,7 @@ exports.consentPage = async function consentPage(page) {
  * Find research input and send arguments
  * @param {*} page 
  */
-exports.sendResearch = async function sendResearch(page) {
-  // Get arguments
-  const myArgs = process.argv.slice(2);
+exports.sendResearch = async function sendResearch(myArgs) {
     // Find input research by id
     const searchInput = await page.$("#searchbox");
     // Insert keyword 
