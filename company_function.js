@@ -37,7 +37,7 @@ exports.sendResearch = async function sendResearch(page) {
  * @param {*} page 
  * @returns true if is the last company, false if not
  */
-async function lastCompany(page) {
+async function isLastCompany(page) {
   if (await page.$(".HlvSq") == null) {
     console.log('Scroll en cours...');
     return false;
@@ -73,7 +73,7 @@ exports.autoScroll = async function scrollPage(page, scrollElements) {
       return document.querySelectorAll(scrollElements).length;
     }, scrollElements);
     if (newElementsLength === elementsLength) break;
-    if (lastCompany(page) == true) break;
+    if (isLastCompany(page) == true) break;
   }
 }
 
