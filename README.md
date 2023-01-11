@@ -1,5 +1,5 @@
 > **Warning**
-> ## A Google update made it obsolete. I'm actually fixing it (problem with scroll bar not found)
+> ## After a Google update, worstCompany is functionnal again (11/01/2023). Have fun ! 
 
 # WorstCompany
 
@@ -12,10 +12,10 @@
 ```shell
 node -v
 ```
-<p>You need to install puppeteer:</p>
+<p>You need npm install:</p>
 
 ```shell
-npm install puppeteer
+npm install
 ```
 ## How does it work
 
