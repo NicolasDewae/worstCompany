@@ -151,3 +151,42 @@ exports.sortByWorst = async function sortByWorst(companies) {
     // Final result
     return companies; 
 }
+
+  // npm i csv-writer
+  /**
+   * 
+   * @param {*} companies 
+   * @returns cvs file
+   */
+  exports.csvWriter = function csvWriter(companies) {
+    const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+
+    // format date
+    const date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+    let second = date.getSeconds();
+    let currentDate = year + "-" + month + "-" + day + "_" + hour + minute + second;
+
+    // Create csv file
+    const csvWriter = createCsvWriter({
+      path: "csv_files/companies_" + currentDate + ".csv",
+      header: [
+        {id: 'name', title: 'Name'},
+        {id: 'grade', title: 'Grade'},
+        {id: 'nbComm', title: 'Nb Comment'},
+        {id: 'adress', title: 'Adress'},
+        {id: 'url', title: 'Url'}
+      ]
+    });
+
+    csvWriter.writeRecords(companies)
+    .then(() => {
+      console.log("...CSV Done");
+    })
+
+    return csvWriter;
+  }
