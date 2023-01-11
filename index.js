@@ -23,7 +23,6 @@ compFunctionExports = require('./company_function');
   // Scroll to the bottom
   await compFunctionExports.autoScroll(page, 'div.bfdHYd');
   companies = companies.concat(await compFunctionExports.parseCompany(page));
-  console.log("parseCompany terminé");
   // Sort grade by descending order
   await compFunctionExports.sortByWorst(companies);
   // Create csv
