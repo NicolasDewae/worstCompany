@@ -18,20 +18,16 @@ compFunctionExports = require('./company_function');
   // Execute functions
   await compFunctionExports.consentPage(page);
   await compFunctionExports.sendResearch(page);
-
   await page.waitForSelector("div.bfdHYd");
-
   let companies = [];
-  
   // Scroll to the bottom
   await compFunctionExports.autoScroll(page, 'div.bfdHYd');
-  
   companies = companies.concat(await compFunctionExports.parseCompany(page));
-
   console.log("parseCompany terminé");
   // Sort grade by descending order
   await compFunctionExports.sortByWorst(companies);
-  
+  // Create csv
+  compFunctionExports.csvWriter(companies);
   // Show result
   console.log(companies);
   await browser.close();
