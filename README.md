@@ -17,6 +17,21 @@ node -v
 ```shell
 npm install
 ```
+
+<p>You need puppeteer:</p>
+
+```shell
+npm install puppeteer
+```
+
+<p>If you want to generate csv file, you need CSV Writer:</p>
+
+```shell
+npm i csv-writer
+```
+
+And create a file "csv_files" in the root of the project
+
 ## How does it work
 
 <p>Open terminal where is the project and push your research with command line arguments, example:</p> 
