@@ -19,18 +19,14 @@ exports.consentPage = async function consentPage(page) {
  * Find research input and send arguments
  * @param {*} page 
  */
-exports.sendResearch = async function sendResearch(page) {
-  // Get arguments
-  const myArgs = process.argv.slice(2);
-    // Find input research by id
-    const searchInput = await page.$("#searchbox");
-    // Insert keyword 
-    for (let index = 0; index < myArgs.length; index++) {
-      await searchInput.type(myArgs[index] + " "); 
-    }
-    // Send research
-    await page.click("#searchbox-searchbutton");
-    console.log("La recherche est lancée");      
+exports.sendResearch = async function sendResearch(page, searchTerm) {
+  // Find input research by id
+  const searchInput = await page.$("#searchbox");
+  // Insert keyword 
+  await searchInput.type(searchTerm); 
+  // Send research
+  await page.click("#searchbox-searchbutton");
+  console.log("La recherche est lancée");      
 }
 
 /**
@@ -115,16 +111,24 @@ exports.parseCompany = async function parseCompany(page) {
   // Create tab
   if (lists && lists.length) {
     for(const el of lists){
-      const name =    await el.evaluate(span => span.parentElement.parentElement.parentElement.parentElement.children[0].innerText);
-      const grade =   await el.evaluate(span => span.children[0].innerHTML);
-      const nbComm =  await el.evaluate(span => span.children[7].innerHTML);
-      const adress =  await el.evaluate(span => span.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].children[3].children[1].innerText);
-      const url =     await el.evaluate(span => span.baseURI);
+      let name = "";
+      let grade = "";
+      let nbComm = "";
+      let address = "";
+      let url = "";
+
+      name = await el.evaluate(span => span.parentElement.parentElement.parentElement.parentElement.children[0]?.innerText);
+      grade = await el.evaluate(span => span.children[0]?.innerHTML);
+      nbComm = await el.evaluate(span => span.children[6]?.innerHTML);
+      nbComm = nbComm.replace(/[{()}]/g, '')
+      address = await el.evaluate(span => span.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].children[3].children[1]?.innerText);
+      url = await el.evaluate(span => span.baseURI);
+
       companies.push({ 
           name: name,
           grade: grade,
           nbComm: nbComm,
-          adress: adress,
+          address: address,
           url: url
       });
     }
