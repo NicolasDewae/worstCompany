@@ -1,33 +1,49 @@
-const puppeteer = require('puppeteer');  
-compFunctionExports = require('./company_function');
+const searchButton = document.getElementById('searchButton');
+const searchTermInput = document.getElementById('searchTerm');
+const resultsTable = document.getElementById('resultsTable').querySelector('tbody');
+const url = 'http://localhost:3000/research';
 
-(async () => {
+searchButton.addEventListener('click', async () => {
+  const searchTerm = searchTermInput.value.trim();
+
+  // Show loader
+  const loader = document.querySelector("#loader");
+  loader.style.display = "flex";
+
+  if (searchTerm.length > 0) {
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ searchTerm: searchTerm })
+    })
+    .then(data => {
+        return data.json();
+    })
+    .catch(error => {
+        console.error(error);
+    });
     
-  const browser = await puppeteer.launch(
-    {
-      userDataDir: ("./user_data"),
-      headless: true,
+    if (response) {
+      loader.style.display = "none";
     }
-  );
-    
-  const page = await browser.newPage();
-  // Screen size
-  await page.setViewport({ width: 1680, height: 700 });
-  await page.goto('https://maps.google.fr', {waitUntil: 'networkidle2'});
 
-  // Execute functions
-  await compFunctionExports.consentPage(page);
-  await compFunctionExports.sendResearch(page);
-  await page.waitForSelector("div.bfdHYd");
-  let companies = [];
-  // Scroll to the bottom
-  await compFunctionExports.autoScroll(page, 'div.bfdHYd');
-  companies = companies.concat(await compFunctionExports.parseCompany(page));
-  // Sort grade by descending order
-  await compFunctionExports.sortByWorst(companies);
-  // Create csv
-  compFunctionExports.csvWriter(companies);
-  // Show result
-  console.log(companies);
-  await browser.close();
-})();
+
+    const companies = response;
+
+    resultsTable.innerHTML = '';
+
+    companies.forEach(company => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${company.name}</td>
+        <td>${company.grade}</td>
+        <td>${company.nbComm}</td>
+        <td>${company.address}</td>
+        <td><a href="${company.url}" target="_blank">Lien</a></td>
+      `;
+      resultsTable.appendChild(tr);
+    });
+  }
+});
